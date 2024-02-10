@@ -12,7 +12,7 @@ export async function hashPassword(password: string): Promise<string | H3Error >
     }
 }
 
-export async function verifyPassword{hash: String, password: String}: Promise<boolean> {
+export async function verifyPassword(hash: string, password: string): Promise<boolean> {
     try {
         return (await argon2.verify(hash, password));
     } catch (error) {
