@@ -1,24 +1,21 @@
 import {
-  Entity, Column, PrimaryGeneratedColumn, ManyToOne,
+  Entity, Column, ManyToOne, PrimaryColumn,
 } from 'typeorm';
 import { Users } from './Users';
 
 @Entity()
-export class People {
-  @PrimaryGeneratedColumn('uuid')
-    id: string;
-
-  @Column('text', { unique: true, nullable: false })
-    name: string;
-
+export class Refresh_Tokens {
   @ManyToOne(() => Users, (user) => user.id, {
     primary: false,
     cascade: true,
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-    added_by: string;
+    users_id: string;
+
+  @PrimaryColumn('text', { unique: true, nullable: false })
+    refresh_token: string;
 
   @Column('timestamp with time zone', { default: () => 'CURRENT_TIMESTAMP', nullable: false })
-    added_timestamp: Date;
+    expiration_timestamp: Date;
 }

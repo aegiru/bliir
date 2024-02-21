@@ -1,13 +1,11 @@
-import { register } from "./model";
-import { useBase } from "h3";
+import { useBase } from 'h3';
+import { register } from './model';
 
 const router = createRouter();
 
 router.post(
-    "/register",
-    defineEventHandler(async (event) => {
-        return await register(event);
-    })
+  '/register',
+  defineEventHandler(async (event) => register(event)),
 );
 
-export default useBase("/api/auth", router.handler);
+export default useBase('/api/auth', router.handler);

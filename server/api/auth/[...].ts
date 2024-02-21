@@ -1,5 +1,3 @@
-import authController from '~/server/auth/mvc/auth/controller'
+import authController from '~/server/auth/mvc/auth/controller';
 
-export default defineEventHandler(async (event) => {
-    return authController(event);
-});
+export default defineEventHandler(async (event) => authController(event));
