@@ -29,5 +29,5 @@ export async function login(event: H3Event): Promise<JSONResponse> {
 
   const tokens = errorOrTokens as SessionTokens;
 
-  setBrowserCookies(event, tokens);
+  //setBrowserCookies(event, tokens);
 }
