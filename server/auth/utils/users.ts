@@ -1,12 +1,13 @@
 import { User } from '../types';
-import selectUserByUsername from '~/server/database/queries/selects/users/selectUserByUsername';
-import selectUserByEmail from '~/server/database/queries/selects/users/selectUserByEmail';
+import { selectUserByEmail, selectUserByUsername }from '~/server/database/queries/selects/users';
+import { convertDatabaseUserToAuthUser } from './converters';
 
 export async function getUserByUsername(username: string): Promise<User | null> {
   let user = null;
 
   try {
-    user = await selectUserByUsername(username) as User;
+    const databaseUser = await selectUserByUsername(username);
+    user = convertDatabaseUserToAuthUser(databaseUser);
   } catch (error) {
     console.error(error);
   }
@@ -18,7 +19,8 @@ export async function getUserByEmail(email: string): Promise<User | null> {
   let user = null;
 
   try {
-    user = await selectUserByEmail(email) as User;
+    const databaseUser = await selectUserByEmail(email);
+    user = convertDatabaseUserToAuthUser(databaseUser);
   } catch (error) {
     console.error(error);
   }

@@ -1,6 +1,6 @@
 import AppDataSource from '../../index';
 import { Users } from '../../entities/Users';
-
+ 
 export async function selectUserByEmail(email: string): Promise<Users> {
   const foundUser: Users = await AppDataSource
     .createQueryBuilder()
@@ -23,7 +23,7 @@ export async function selectUserByID(id: string): Promise<Users> {
   return foundUser;
 }
 
-export default async function selectUserByUsername(username: string): Promise<Users> {
+export async function selectUserByUsername(username: string): Promise<Users> {
   const foundUser: Users = await AppDataSource
     .createQueryBuilder()
     .select()

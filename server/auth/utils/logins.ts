@@ -1,19 +1,28 @@
 import { H3Event, H3Error } from 'h3';
 
-import { getUserByUsername } from './users';
+import { getUserByUsername, getUserByEmail } from './users';
 import { verifyPassword, makeUUID } from './passwords';
 import { createUserAccessToken, createUserRefreshToken } from './jwt';
 import { storeRefreshToken } from './tokens';
 import { Session, SessionTokens } from '../types';
 import { createUserSession } from './sessions';
+import { isLoginEventValid } from './validators';
 
 const config = useRuntimeConfig();
 
 export async function login(event: H3Event): Promise<H3Error | SessionTokens> {
   const body = await readBody(event);
-  const user = await getUserByUsername(body.username);
+  const loginType = await isLoginEventValid(event);
+  if (loginType instanceof H3Error) return loginType;
 
-  if (user === null) {
+  let user;
+  if (loginType === 'email') {
+    user = await getUserByEmail(body.login);
+  } else if (loginType === 'username') {
+    user = await getUserByUsername(body.login);
+  }
+
+  if (user === undefined || user === null) {
     return createError({
       statusCode: 401,
       statusMessage: 'Invalid username.',
